@@ -1,5 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
+const imageSize = require('image-size');
+
+const rootPath="gallery/"
 
 class PlotExtension {
     constructor() {
@@ -46,15 +49,16 @@ function createPlotIconsData() {
             const subfiles = fs.readdirSync(path.join(__dirname, dirName));
             subfiles.forEach(function(subfileName) {
                 // 如果已经存在 则不再处理
-                if (allPlots.find(o => o.fileName === subfileName && o.dirName === dirName)) {
-                    return;
-                }
+                // if (allPlots.find(o => o.fileName === subfileName && o.dirName === dirName)) {
+                //     return;
+                // }
 
                 // 新增标
                 const plot = new Plot();
                 plot.dirName = dirName;
                 plot.fileName = subfileName;
-                plot.iconID = 123456;
+                const imageInfo = imageSize(rootPath+dirName + "/" + subfileName);
+                plot.iconID = imageInfo.width + '.' + imageInfo.height + ' ' + subfileName;
                 allPlots.push(plot);
                 console.log(`RD: createPlotIconsData -> new plot`, plot);
 
