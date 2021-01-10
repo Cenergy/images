@@ -4,23 +4,23 @@ const imageSize = require('image-size');
 
 const rootPath="gallery/"
 
-class PlotExtension {
+class PhotoExtension {
     constructor() {
         this.size = 64;
         this.offset = [0, 0];
     }
 }
 
-class Plot {
+class Photo {
     constructor() {
         this.dirName = '';
         this.fileName = '';
         this.iconID = '';
-        this.extension = new PlotExtension();
+        this.extension = new PhotoExtension();
     }
 }
 
-class PlotGroup {
+class PhotoGroup {
     constructor() {
         this.name = '';
         this.children = [];
@@ -31,8 +31,8 @@ function createPlotIconsData() {
     let allPlots = [];
     let allPlotGroups = [];
 
-    const plotJsonFile = path.join(__dirname, './plot-config.json');
-    const plotGroupJsonFile = path.join(__dirname, './plot-group-config.json');
+    const plotJsonFile = path.join(__dirname, './photosInfo.json');
+    const plotGroupJsonFile = path.join(__dirname, './photos.json');
 
     if (fs.existsSync(plotJsonFile)) {
         allPlots = JSON.parse(fs.readFileSync(plotJsonFile));
@@ -54,7 +54,7 @@ function createPlotIconsData() {
                 // }
 
                 // 新增标
-                const plot = new Plot();
+                const plot = new Photo();
                 plot.dirName = dirName;
                 plot.fileName = subfileName;
                 const imageInfo = imageSize(rootPath+dirName + "/" + subfileName);
@@ -65,7 +65,7 @@ function createPlotIconsData() {
                 // 为新增标添加分组 暂时以它所处的文件夹为分组
                 let group = allPlotGroups.find(o => o.name === dirName);
                 if (!group) {
-                    group = new PlotGroup();
+                    group = new PhotoGroup();
                     group.name = dirName;
                     allPlotGroups.push(group);
                     console.log(`RD: createPlotIconsData -> new group`, group);
