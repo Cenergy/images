@@ -1,1 +1,1 @@
-# images
+#blog images
